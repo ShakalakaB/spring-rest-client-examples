@@ -5,10 +5,14 @@ import guru.springframework.api.domain.UserData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -32,8 +36,23 @@ public class ApiServiceImpl implements ApiService {
                 uriComponentsBuilder.toUriString(),
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<User>>() {});
+                new ParameterizedTypeReference<List<User>>() {
+                });
 
         return responseEntity.getBody();
+    }
+
+    @Override
+    public Flux<User> getFluxUsers(Mono<Integer> limit) {
+
+        Flux<User> response = WebClient.create(apiUrl)
+                .get()
+                .uri(uriBuilder -> uriBuilder.queryParam("_limit", limit.block()).build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(new ParameterizedTypeReference<User>() {
+                });
+
+        return  response;
     }
 }

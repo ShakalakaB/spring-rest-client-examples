@@ -29,12 +29,22 @@ public class UserController {
 
         Integer limit = Integer.valueOf(map.get("limit").get(0));
 
-        if(limit == null || limit == 0){
+        if (limit == null || limit == 0) {
             log.debug("Setting limit to default of 10");
             limit = 10;
         }
 
         model.addAttribute("users", apiService.getUsers(limit));
+
+        return "userList";
+    }
+
+    @PostMapping("/reactive/users")
+    public String getReactiveUsers(Model model, ServerWebExchange serverWebExchange) {
+
+        model.addAttribute("users", apiService.getFluxUsers(serverWebExchange.getFormData()
+                        .map(data -> new Integer(data.getFirst("limit"))))
+        );
 
         return "userList";
     }
