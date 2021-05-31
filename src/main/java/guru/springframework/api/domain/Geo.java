@@ -9,9 +9,8 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class Card implements Serializable {
-    private String type;
-    private Long number;
-    private ExpirationDate expirationDate;
+public class Geo implements Serializable {
+    private Double lat;
+    private Double lng;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 }

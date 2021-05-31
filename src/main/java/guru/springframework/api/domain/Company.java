@@ -9,9 +9,9 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class Name implements Serializable {
-    private String title;
-    private String first;
-    private String last;
+public class Company implements Serializable {
+    private String name;
+    private String catchPhrase;
+    private String bs;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 }

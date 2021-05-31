@@ -1,6 +1,6 @@
 package guru.springframework.springrestclientexamples.service;
 
-import org.apache.catalina.User;
+import guru.springframework.api.domain.User;
 
 import java.util.List;
 

@@ -1,8 +1,10 @@
 package guru.springframework.springrestclientexamples.service;
 
+import guru.springframework.api.domain.User;
 import guru.springframework.api.domain.UserData;
-import guru.springframework.springrestclientexamples.config.RestTemplateConfig;
-import org.apache.catalina.User;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,7 +20,12 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public List<User> getUsers(Integer limit) {
-        UserData userData = restTemplate.getForObject("http://apifaketory.com/api/user?limit=" + limit, UserData.class);
-        return userData.getData();
+        ResponseEntity<List<User>> responseEntity = restTemplate.exchange(
+                "https://jsonplaceholder.typicode.com/users?_limit=" + limit,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<User>>() {});
+
+        return responseEntity.getBody();
     }
 }

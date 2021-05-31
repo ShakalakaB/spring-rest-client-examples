@@ -9,9 +9,11 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class Billing implements Serializable {
-    private Card card;
-    private String iban;
-    private String swift;
+public class Address implements Serializable {
+    private String street;
+    private String suite;
+    private String city;
+    private String zipcode;
+    private Geo geo;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 }
